@@ -26,15 +26,17 @@ def add_to_order():
             return PIZZAS[int(pizza) - 1]
 
 def remove_from_order(order):
-    for index, pizza in enumerate(order):
-        print("{}: {}".format(index + 1, pizza["name"]))
-    print("0: Exit")
+    while True:
+        for index, pizza in enumerate(order):
+            print("{}: {}".format(index + 1, pizza["name"]))
+        print("0: Exit")
 
-    remove_choice = input("\nWhich pizza would you like to remove? ")
-    if remove_choice == "0":
-        return
-    elif is_valid_pizza(remove_choice, order):
-        del order[int(remove_choice)-1]
+        remove_choice = input("\nWhich pizza would you like to remove? ")
+        if remove_choice == "0":
+            break
+        elif is_valid_pizza(remove_choice, order):
+            del order[int(remove_choice)-1]
+            break
 
 
 def display_order(order):
@@ -45,7 +47,12 @@ def display_order(order):
             print(item["name"])
 
 def is_valid_pizza(pizza, pizza_list):
-    return True if pizza.isdigit() and pizza_list[int(pizza) - 1] is not None else False
+    if pizza.isdigit() and pizza_list[int(pizza) - 1] is not None :
+        return True
+    else:
+        print("\n{} is an invalid option, please try again".format(pizza))
+        return False
+
 
 
 def validate_options(menu_selection):
