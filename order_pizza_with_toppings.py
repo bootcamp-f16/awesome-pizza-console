@@ -15,8 +15,15 @@ class Pizza():
         Topping(name="Sausage"),
     )
 
+    toppings = []
+
     def __init__(self):
         super(Pizza, self).__init__()
+
+    def is_valid_topping(self, selection):
+        return (selection.isdigit() and
+            (int(selection) - 1) >= 0 and
+            (int(selection) - 1) < len(self.AVAILABLE_TOPPINGS))
 
     def add_topping(self):
         while(True):
@@ -29,7 +36,10 @@ class Pizza():
 
             if menu_selection == "0":
                 break
-
+            elif self.is_valid_topping(menu_selection):
+                self.toppings.append(self.AVAILABLE_TOPPINGS[int(menu_selection) - 1])
+            else:
+                print("\n{} is an invalid option, please try again".format(menu_selection))
 
 class Cart():
     """Cart is the shopping cart for the current user's order"""
