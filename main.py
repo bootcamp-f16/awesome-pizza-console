@@ -4,7 +4,11 @@ def main():
     """
 
     while(True):
-        input("What pizza would you like to order? ")
+        print("0: Exit")
+        menu_selection = input("Please select an option from above? ")
+
+        if menu_selection == "0":
+            break
 
 
 main()
