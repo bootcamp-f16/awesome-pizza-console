@@ -24,12 +24,17 @@ def add_to_order():
         elif order_selection == "2":
             return "Pepperoni Pizza"
             break
+        else:
+            validate_options(order_selection)
 
 def display_order(order):
     if order is not None:
         print(order)
     else:
         print("You have not ordered anything yet.")
+
+def validate_options(menu_selection):
+    print("\n{} is an invalid option, please try again".format(menu_selection))
 
 def main():
     """
@@ -56,6 +61,8 @@ def main():
             order = add_to_order()
         elif menu_selection == "2":
             display_order(order)
+        else:
+            validate_options(menu_selection)
 
 
 main()
