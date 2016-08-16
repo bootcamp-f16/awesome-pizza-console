@@ -1,14 +1,12 @@
-order = None
-
 def add_to_order():
     """
     Prompts for adding pizza to an order.
     """
-    
+
     ORDER_OPTIONS = (
-        "1: Cheese pizza",
-        "2: Pepperoni pizza",
-        "0: Back to main menu",
+        "1: Cheese Pizza",
+        "2: Pepperoni Pizza",
+        "0: Back to Main Menu",
     )
     
     while True:
@@ -19,8 +17,15 @@ def add_to_order():
 
         if order_selection == "0":
             break
+        elif order_selection == "1":
+            return "Cheese Pizza"
+            break
+        elif order_selection == "2":
+            return "Pepperoni Pizza"
+            break
 
-
+def display_order(order):
+    print(order)
 
 def main():
     """
@@ -28,8 +33,11 @@ def main():
     """
     MENU_ITEMS = (
         "1: Order Pizza",
+        "2: Display Order",
         "0: Exit",
     )
+
+    order = None
 
     while(True):
         for menu_item in MENU_ITEMS:
@@ -40,7 +48,9 @@ def main():
         if menu_selection == "0":
             break
         elif menu_selection == "1":
-            add_to_order()
+            order = add_to_order()
+        elif menu_selection == "2":
+            display_order(order)
 
 
 main()
