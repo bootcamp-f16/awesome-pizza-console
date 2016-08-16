@@ -1,13 +1,35 @@
+class Topping():
+    """What goes on top of a pizza"""
+    def __init__(self, name):
+        super(Topping, self).__init__()
+        self.name = name
+
+    def __str__(self):
+        return self.name
 
 class Pizza():
     """Pizza calculates price and manages toppings"""
+    AVAILABLE_TOPPINGS = (
+        Topping(name="Cheese"),
+        Topping(name="Pepperoni"),
+        Topping(name="Sausage"),
+    )
+
     def __init__(self):
         super(Pizza, self).__init__()
 
-class Topping():
-    """What goes on top of a pizza"""
-    def __init__(self):
-        super(Topping, self).__init__()
+    def add_topping(self):
+        while(True):
+            print("\n\n")
+            for index, topping in enumerate(self.AVAILABLE_TOPPINGS):
+                print("{}: {}".format(index + 1, topping))
+            print("0: Exit")
+
+            menu_selection = input("\nPlease select a topping from above? ")
+
+            if menu_selection == "0":
+                break
+
 
 class Cart():
     """Cart is the shopping cart for the current user's order"""
@@ -33,6 +55,8 @@ class Cart():
 
             if menu_selection == "0":
                 break
+            elif menu_selection == "1":
+                self.current_pizza.add_topping()
 
 def main():
     """
