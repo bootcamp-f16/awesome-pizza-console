@@ -1,40 +1,47 @@
+PIZZAS = (
+            {
+                "name" : "Cheese Pizza"
+            },
+            {
+                "name" : "Pepperoni Pizza"
+            }
+        )
+
 def add_to_order():
     """
     Prompts for adding pizza to an order.
     """
-
-    ORDER_OPTIONS = (
-        "1: Cheese Pizza",
-        "2: Pepperoni Pizza",
-        "0: Back to Main Menu",
-    )
     
     while True:
         print("\n\n")
-        for order_option in ORDER_OPTIONS:
-            print(order_option)
+        for index, pizza_options in enumerate(PIZZAS):
+            print("{}: {}".format(index + 1, pizza_options["name"]))
 
-        order_selection = input("\nWhich pizza would you like to order? ")
+        print("0: Exit")
+        pizza = input("\nWhich pizza would you like to order? ")
 
-        if order_selection == "0":
+        if pizza == "0":
             break
-        elif order_selection == "1":
-            return "Cheese Pizza"
-            break
-        elif order_selection == "2":
-            return "Pepperoni Pizza"
-            break
-        else:
-            validate_options(order_selection)
+        elif is_valid_pizza(pizza):
+            return PIZZAS[int(pizza) - 1]
+
 
 def display_order(order):
     if order is not None:
-        print(order)
+        print(order["name"])
     else:
         print("You have not ordered anything yet.")
 
+def is_valid_pizza(pizza):
+    return True if pizza.isdigit() and PIZZAS[int(pizza) - 1] is not None else False
+
+
 def validate_options(menu_selection):
-    print("\n{} is an invalid option, please try again".format(menu_selection))
+    if menu_selection.isdigit():
+        print("\n{} is an invalid option, please try again".format(menu_selection))
+    else:
+        print("\n{} is not a number, please enter a number from the menu above".format(menu_selection))
+
 
 def main():
     """
