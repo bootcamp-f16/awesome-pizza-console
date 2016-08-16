@@ -21,16 +21,17 @@ def add_to_order():
         pizza = input("\nWhich pizza would you like to order? ")
 
         if pizza == "0":
-            break
+            return None
         elif is_valid_pizza(pizza):
             return PIZZAS[int(pizza) - 1]
 
 
 def display_order(order):
-    if order is not None:
-        print(order["name"])
-    else:
+    if len(order) == 0:
         print("You have not ordered anything yet.")
+    else: 
+        for item in order:
+            print(item["name"])
 
 def is_valid_pizza(pizza):
     return True if pizza.isdigit() and PIZZAS[int(pizza) - 1] is not None else False
@@ -48,12 +49,12 @@ def main():
     Main loop for the ordering application
     """
     MENU_ITEMS = (
-        "1: Order Pizza",
+        "1: Add Pizza to Order",
         "2: Display Order",
         "0: Exit",
     )
 
-    order = None
+    order = []
 
     while(True):
         print("\n\n")
@@ -65,7 +66,10 @@ def main():
         if menu_selection == "0":
             break
         elif menu_selection == "1":
-            order = add_to_order()
+            order_selection = add_to_order()
+            if order_selection is not None:
+                order.append(order_selection)
+
         elif menu_selection == "2":
             display_order(order)
         else:
