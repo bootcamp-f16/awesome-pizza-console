@@ -10,10 +10,11 @@ def add_to_order():
     )
     
     while True:
+        print("\n\n")
         for order_option in ORDER_OPTIONS:
             print(order_option)
 
-        order_selection = input("Which pizza would you like to order? ")
+        order_selection = input("\nWhich pizza would you like to order? ")
 
         if order_selection == "0":
             break
@@ -25,7 +26,10 @@ def add_to_order():
             break
 
 def display_order(order):
-    print(order)
+    if order is not None:
+        print(order)
+    else:
+        print("You have not ordered anything yet.")
 
 def main():
     """
@@ -40,10 +44,11 @@ def main():
     order = None
 
     while(True):
+        print("\n\n")
         for menu_item in MENU_ITEMS:
             print(menu_item)
 
-        menu_selection = input("Please select an option from above? ")
+        menu_selection = input("\nPlease select an option from above? ")
 
         if menu_selection == "0":
             break
