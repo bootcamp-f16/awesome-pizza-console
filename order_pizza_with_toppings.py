@@ -73,14 +73,14 @@ class Pizza():
             else:
                 print("\n{} is an invalid option, please try again".format(menu_selection))
 
-    def display_toppings(self):
-        print("\n\n")
+    def display_toppings(self, heading="Toppings", topping_format="{index}: {topping}"):
         if len(self.toppings) == 0:
             print("There are no toppings on the pizza yet")
         else:
-            print("Toppings")
+            if heading is not None:
+                print(heading)
             for index, topping in enumerate(self.toppings):
-                print("{index}: {topping}".format(index=index+1, topping=topping))
+                print(topping_format.format(index=index+1, topping=topping))
 
     def remove_toppings(self):
         while True:
@@ -105,8 +105,8 @@ class Cart():
 
     MENU_ITEMS = (
         "1: Add Pizza",
-        "3: Display Pizzas",
-        "2: Remove Pizza",
+        "2: Display Pizzas",
+        "3: Remove Pizza",
         "4: Place order",
         "0: Exit",
     )
@@ -141,7 +141,7 @@ class Cart():
             print("Pizzas")
             for index, pizza in enumerate(self.pizzas):
                 print("{index}: Pizza {index}".format(index=index+1))
-                pizza.display_toppings()
+                pizza.display_toppings(heading=None, topping_format="     {topping}")
 
 def main():
     """
