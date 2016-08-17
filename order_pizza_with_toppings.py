@@ -48,6 +48,7 @@ class Pizza():
     def __init__(self):
         super(Pizza, self).__init__()
         self.toppings = []
+        self.name = "Custom"
 
     def is_valid_topping(self, selection, toppings=AVAILABLE_TOPPINGS):
         return (selection.isdigit() and
@@ -98,6 +99,9 @@ class Pizza():
             else:
                 print("\n{} is an invalid option, please try again".format(menu_selection))
 
+    def __str__(self):
+        return self.name
+
 
 class Cart():
     """Cart is the shopping cart for the current user's order"""
@@ -114,6 +118,11 @@ class Cart():
     def __init__(self):
         super(Cart, self).__init__()
         self.pizzas = []
+
+    def is_valid_pizza(self, selection):
+        return (selection.isdigit() and
+            (int(selection) - 1) >= 0 and
+            (int(selection) - 1) < len(self.pizzas))
 
     def display_menu(self):
         while(True):
@@ -132,6 +141,8 @@ class Cart():
                     print("\nPizza added to cart!")
             if menu_selection == "2":
                 self.display_pizzas()
+            elif menu_selection == "3":
+                self.remove_pizzas()
 
     def display_pizzas(self):
         print("\n\n")
@@ -142,6 +153,21 @@ class Cart():
             for index, pizza in enumerate(self.pizzas):
                 print("{index}: Pizza {index}".format(index=index+1))
                 pizza.display_toppings(heading=None, topping_format="     {topping}")
+    def remove_pizzas(self):
+        while True:
+            self.display_pizzas()
+            print("0: Exit")
+
+            menu_selection = input("\nPlease select a pizza to remove? ")
+
+            if menu_selection == "0":
+                break
+            elif self.is_valid_pizza(menu_selection):
+                pizza = self.pizzas[int(menu_selection) -1]
+                self.pizzas.remove(pizza)
+                print("\n{} pizza removed from the cart!".format(pizza))
+            else:
+                print("\n{} is an invalid option, please try again".format(menu_selection))
 
 def main():
     """
@@ -153,4 +179,5 @@ def main():
     cart.display_menu()
 
 
-main()
+if __name__ == '__main__':
+    main()
