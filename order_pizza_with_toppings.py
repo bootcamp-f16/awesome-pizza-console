@@ -29,10 +29,10 @@ class Pizza():
     def __init__(self):
         super(Pizza, self).__init__()
 
-    def is_valid_topping(self, selection):
+    def is_valid_topping(self, selection, toppings=AVAILABLE_TOPPINGS):
         return (selection.isdigit() and
             (int(selection) - 1) >= 0 and
-            (int(selection) - 1) < len(self.AVAILABLE_TOPPINGS))
+            (int(selection) - 1) < len(toppings))
 
     def display_menu(self):
         while True:
@@ -48,6 +48,8 @@ class Pizza():
                 self.add_toppings()
             elif menu_selection == "2":
                 self.display_toppings()
+            elif menu_selection == "3":
+                self.remove_toppings()
 
     def add_toppings(self):
         while(True):
@@ -75,6 +77,24 @@ class Pizza():
             print("Toppings")
             for index, topping in enumerate(self.toppings):
                 print("{index}: {topping}".format(index=index+1, topping=topping))
+
+    def remove_toppings(self):
+        while True:
+            self.display_toppings()
+            print("0: Exit")
+
+            menu_selection = input("\nPlease select a topping to remove? ")
+
+            if menu_selection == "0":
+                break
+            elif self.is_valid_topping(menu_selection, self.toppings):
+                topping = self.toppings[int(menu_selection) -1]
+                self.toppings.remove(topping)
+                print("\n{} removed from the pizza!".format(topping))
+            else:
+                print("\n{} is an invalid option, please try again".format(menu_selection))
+
+
 class Cart():
     """Cart is the shopping cart for the current user's order"""
 
