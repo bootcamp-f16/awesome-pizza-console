@@ -67,6 +67,14 @@ class Pizza():
             else:
                 print("\n{} is an invalid option, please try again".format(menu_selection))
 
+    def display_toppings(self):
+        print("\n\n")
+        if len(self.toppings) == 0:
+            print("There are no toppings on the pizza yet")
+        else:
+            print("Toppings")
+            for index, topping in enumerate(self.toppings):
+                print("{index}: {topping}".format(index=index+1, topping=topping))
 class Cart():
     """Cart is the shopping cart for the current user's order"""
 
@@ -104,9 +112,7 @@ def main():
 
 
     cart = Cart()
-
-    while(True):
-        cart.display_menu()
+    cart.display_menu()
 
 
 main()
