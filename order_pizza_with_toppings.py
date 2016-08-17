@@ -24,32 +24,36 @@ class Pizza():
         Topping(name="Sausage"),
     )
 
-    toppings = []
+    @classmethod
+    def make_pizza(cls):
+        pizza = cls()
+        while True:
+            print("\n\n")
+            for menu_item in pizza.MENU_ITEMS:
+                print(menu_item)
+
+            menu_selection = input("\nPlease select an option from above? ")
+
+            if menu_selection == "0":
+                return None
+            elif menu_selection == "1":
+                pizza.add_toppings()
+            elif menu_selection == "2":
+                pizza.display_toppings()
+            elif menu_selection == "3":
+                pizza.remove_toppings()
+            elif menu_selection == "4":
+                return pizza
 
     def __init__(self):
         super(Pizza, self).__init__()
+        self.toppings = []
 
     def is_valid_topping(self, selection, toppings=AVAILABLE_TOPPINGS):
         return (selection.isdigit() and
             (int(selection) - 1) >= 0 and
             (int(selection) - 1) < len(toppings))
 
-    def display_menu(self):
-        while True:
-            print("\n\n")
-            for menu_item in self.MENU_ITEMS:
-                print(menu_item)
-
-            menu_selection = input("\nPlease select an option from above? ")
-
-            if menu_selection == "0":
-                break
-            elif menu_selection == "1":
-                self.add_toppings()
-            elif menu_selection == "2":
-                self.display_toppings()
-            elif menu_selection == "3":
-                self.remove_toppings()
 
     def add_toppings(self):
         while(True):
@@ -101,15 +105,15 @@ class Cart():
 
     MENU_ITEMS = (
         "1: Add Pizza",
+        "3: Display Pizzas",
         "2: Remove Pizza",
+        "4: Place order",
         "0: Exit",
     )
 
-    current_pizza = Pizza()
-    pizzas = []
-
     def __init__(self):
         super(Cart, self).__init__()
+        self.pizzas = []
 
     def display_menu(self):
         while(True):
@@ -122,8 +126,22 @@ class Cart():
             if menu_selection == "0":
                 break
             if menu_selection == "1":
-                self.current_pizza.display_menu()
-                self.pizzas.append(self.current_pizza)
+                pizza = Pizza.make_pizza()
+                if pizza is not None:
+                    self.pizzas.append(pizza)
+                    print("\nPizza added to cart!")
+            if menu_selection == "2":
+                self.display_pizzas()
+
+    def display_pizzas(self):
+        print("\n\n")
+        if len(self.pizzas) == 0:
+            print("There are no pizzas yet")
+        else:
+            print("Pizzas")
+            for index, pizza in enumerate(self.pizzas):
+                print("{index}: Pizza {index}".format(index=index+1))
+                pizza.display_toppings()
 
 def main():
     """
