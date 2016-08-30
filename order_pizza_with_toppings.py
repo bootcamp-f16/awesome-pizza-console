@@ -1,11 +1,12 @@
 class Topping():
     """What goes on top of a pizza"""
-    def __init__(self, name):
+    def __init__(self, name, cost=1.00):
         super(Topping, self).__init__()
         self.name = name
+        self.cost = cost
 
     def __str__(self):
-        return self.name
+        return "{:10} {:,.2f}".format(self.name, self.cost)
 
 class Pizza():
     """Pizza calculates price and manages toppings"""
@@ -20,12 +21,15 @@ class Pizza():
 
     AVAILABLE_TOPPINGS = (
         Topping(name="Cheese"),
-        Topping(name="Pepperoni"),
-        Topping(name="Sausage"),
+        Topping(name="Pepperoni", cost=2.00),
+        Topping("Sausage", 2.50),
     )
 
     @classmethod
     def make_pizza(cls):
+        """
+        Return a new pizza based off what is entered by the user
+        """
         pizza = cls()
         while True:
             print("\n\n")
@@ -45,10 +49,14 @@ class Pizza():
             elif menu_selection == "4":
                 return pizza
 
-    def __init__(self):
+    def __init__(self, name="Custom", base_cost=5.00, toppings=[]):
         super(Pizza, self).__init__()
-        self.toppings = []
-        self.name = "Custom"
+        self.toppings = toppings
+        self.name = name
+        self.base_cost = base_cost
+
+    def get_pizza_total(self):
+        return self.base_cost + sum(topping.cost for topping in self.toppings)
 
     def is_valid_topping(self, selection, toppings=AVAILABLE_TOPPINGS):
         return (selection.isdigit() and
@@ -99,6 +107,9 @@ class Pizza():
             else:
                 print("\n{} is an invalid option, please try again".format(menu_selection))
 
+    def pizza_cost(self):
+        return sum(topping.cost for topping in self.toppings)
+
     def __str__(self):
         return self.name
 
@@ -124,6 +135,9 @@ class Cart():
             (int(selection) - 1) >= 0 and
             (int(selection) - 1) < len(self.pizzas))
 
+    def get_total(self):
+        return sum(pizza.get_pizza_total() for pizza in self.pizzas)
+
     def display_menu(self):
         while(True):
             print("\n\n")
@@ -143,16 +157,28 @@ class Cart():
                 self.display_pizzas()
             elif menu_selection == "3":
                 self.remove_pizzas()
+            elif menu_selection == "4":
+                self.pizzas = []
+                print("\n Your order has been placed!")
 
     def display_pizzas(self):
+        """
+        Prints a list of pizzas with their toppings
+        """
+
         print("\n\n")
         if len(self.pizzas) == 0:
             print("There are no pizzas yet")
         else:
             print("Pizzas")
             for index, pizza in enumerate(self.pizzas):
-                print("{index}: Pizza {index}".format(index=index+1))
+                print("{index}: Pizza {index:<10} ${cost:,.2f}"
+                    .format(index=index+1, cost=pizza.get_pizza_total()))
                 pizza.display_toppings(heading=None, topping_format="     {topping}")
+
+            print("=" * 10)
+            print("TOTAL: {:,.2f}".format(self.get_total()))
+
     def remove_pizzas(self):
         while True:
             self.display_pizzas()
@@ -173,7 +199,6 @@ def main():
     """
     Main loop for the ordering application
     """
-
 
     cart = Cart()
     cart.display_menu()
